@@ -78,6 +78,15 @@ app.post('/login', async function(request,response){
         }
     })
 })
+
+app.get('/logout',function(request,response){
+    session.removeItem('user')
+    response.json({
+        message: 'success',
+        data: {name: ''}
+    })
+})
+
 app.all('*', function(request,response){
     response.sendFile(path.resolve("./public/dist/public/index.html"))
 })

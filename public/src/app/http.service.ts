@@ -24,5 +24,8 @@ export class HttpService {
   loginUser(user:any){
     return this._http.post('/login',user)
   }
+  logoutUser(){
+    return this._http.get('/logout')
+  }
 
 }
