@@ -1,3 +1,17 @@
-<p>
-  login works!
-</p>
+
+
+
+<form>
+    <div class="form-group">
+      <label for="name">User Name</label>
+      <input type="text" class="form-control" name="loginUser.name" [(ngModel)]='loginUser.name' aria-describedby="nameID" placeholder="player">
+      <small id="nameID" class="form-text text-muted">Enter your Username</small>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" name="loginUser.password" [(ngModel)]='loginUser.password' placeholder="password">
+    </div>
+  </form>
+  
+  <button (click)='onLogin()'>Login</button>
+  

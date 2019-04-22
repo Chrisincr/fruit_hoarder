@@ -7,10 +7,12 @@
 <div style="text-align:center" class='col-md'>
   <h1>
     {{ title }}!
+    {{activeUser.name}}
+    
   </h1>
 </div>
 <div class='col-sm'>
-  <app-home></app-home>
+  <app-home [user]='activeUser'></app-home>
 </div>
 </div>
 </header>

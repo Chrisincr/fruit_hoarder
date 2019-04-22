@@ -8,6 +8,9 @@ import { LoginComponent } from './login/login.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { PlayComponent } from './play/play.component';
 import { HomeComponent } from './home/home.component';
+import { HttpService } from './http.service';
+import {HttpClientModule} from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,9 +25,11 @@ import { HomeComponent } from './home/home.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
