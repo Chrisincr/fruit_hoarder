@@ -32,32 +32,49 @@ let gameId = 10
 io.on('connection', function(socket){
     let game = null;
     socket.join(gameId)
-
+    
     io.to(gameId).emit('message', 'welcome')
-    socket.emit('addfruit',{
-        fruit: 'apple',
-        id: 1
-    })
-    socket.emit('addfruit',{
-        fruit: 'lemon',
-        id: 2
-    })
-    console.log(socket)
+    
 
     socket.on('message', data => {
+        switch(data.action){
+            case 'fruitClicked':
+            console.log(data.data.fruit, 'clicked by',data.data.user)
+            io.to(data.data.gameId).emit('removeFruit',{fruit:data.data.fruit})
+            break;
+            case 'startGame':
+            console.log('startgame clicked')
+            game = new Game(gameId)
+            io.to(gameId).emit('newGame', game)
+            console.log('starting game', game)
+            playgame(gameId)
+            gameId++
+            break;
+        }
         console.log('message from',data)
     })
 
-    socket.on('startGame', data =>{
-        game = new Game(gameId)
-        gameId++
-        socket.broadcast.emit('newGame', game)
-        console.log('startgame', game)
-    })
+    
 })
 
-function playgame(socket){
+async function playgame(gameId){
+    fruitid= 1
+    let count = 11
+    progressGame(gameId,count,fruitid)
 
+}
+
+function progressGame(gameId,count,fruitid){
+    if(count > 1){
+        setTimeout(function(){
+            let vh = Math.floor(Math.random() * 61) + 10
+            let vw = Math.floor(Math.random() * 61) + 20
+            io.to(gameId).emit('addfruit',{name: 'lemon',id: fruitid,top:vh+'vh',left:vw+'vw'})
+            count--
+            fruitid++
+            progressGame(gameId,count,fruitid)
+        },1000)
+    } 
 }
 
 class Game{

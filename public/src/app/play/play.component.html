@@ -1,7 +1,7 @@
-<p>
-  <img src='assets/img/apple.png' alt='apple' (click)="appleClicked()" height="150px">
-</p>
 
+<button *ngIf="waiting" (click)="startGame()">Start{{gameId}}</button>
 <div id='playArea'>
-  <img src='assets/img/lemon.png' alt='lemon' (click)="lemonClicked()" height="100px">
+  <div *ngFor='let fruit of fruits'>
+    <img class ='fruit' src='assets/img/{{fruit.name}}.png' alt='fruit' height='125px' (click)="fruitClicked(fruit.id)" [style.top]="fruit.top" [style.left]="fruit.left">
+  </div>
 </div>

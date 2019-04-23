@@ -1,5 +1,6 @@
 <div *ngIf="user.name.length">
   <p>Welcome {{user.name}}</p>
+  <button class='btn btn-primary ' [routerLink]="['/play']">Play Game</button> | 
   <button (click)='onLogout()' class='btn btn-danger'>Logout</button>
 </div>
 

@@ -1,0 +1,12 @@
+#playArea{
+    display: inline-block;
+    position: relative;
+    min-width: 80vw;
+    min-height: 80vh;
+}
+
+
+.fruit{
+    position: absolute;
+    
+}

@@ -18,7 +18,11 @@ export class PlayService {
     
   }
 
-  appleClicked(msg) {
-    this.messages.next(msg)
+  fruitClicked(msg) {
+    this.messages.next({action:'fruitClicked',data:msg})
+  }
+
+  startGame(){
+    this.messages.next({action:'startGame'})
   }
 } 

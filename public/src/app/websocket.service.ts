@@ -19,16 +19,23 @@ export class WebsocketService {
 
     let observable = new Observable(observer => {
       this.socket.on('message', (data) => {
-        console.log('Recieved a message from websocket server');
+        //console.log('Recieved a message from websocket server');
         observer.next(data)
       })
+      this.socket.on('newGame',(data)=>{
+        observer.next({'action':'newGame','data': data})
+      })
       this.socket.on('addfruit', (data)=>{
-        console.log('Recieved add fruit message from ws server')
+        //console.log('Recieved add fruit message from ws server')
         observer.next({'action':'addfruit','data': data})
       })
+      this.socket.on('removeFruit', (data)=>{
+        //console.log('Recieved remove fruit message from ws server')
+        observer.next({'action':'removefruit','data': data})
+      })
       
-      this.socket.on('start', (data) =>{
-        console.log('Recieved start from websocket server');
+      this.socket.on('startGame', (data) =>{
+       //console.log('Recieved start from websocket server');
         observer.next(data)
       })
 
