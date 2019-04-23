@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const path = require('path');
 const bcrypt = require('bcrypt')
+
 var session = require('sessionstorage');
 const hashPass = async (pass)=>{
     let hash = await bcrypt.hash(pass,10)
@@ -25,13 +26,56 @@ app.use(express.static( __dirname + '/public/dist/public' ));
 const server = app.listen(8000, function(){
     console.log('listening on port 8000')
 })
-const io = require('socket.io')(server);
 
+const io = require('socket.io')(server);
+let gameId = 10
 io.on('connection', function(socket){
-    //socket.emit('welcome', 'welcome')
-    console.log('someone connected')
+    let game = null;
+    socket.join(gameId)
+
+    io.to(gameId).emit('message', 'welcome')
+    socket.emit('addfruit',{
+        fruit: 'apple',
+        id: 1
+    })
+    socket.emit('addfruit',{
+        fruit: 'lemon',
+        id: 2
+    })
+    console.log(socket)
+
+    socket.on('message', data => {
+        console.log('message from',data)
+    })
+
+    socket.on('startGame', data =>{
+        game = new Game(gameId)
+        gameId++
+        socket.broadcast.emit('newGame', game)
+        console.log('startgame', game)
+    })
 })
 
+function playgame(socket){
+
+}
+
+class Game{
+    constructor(id){
+        this.fruit =['apple','apple','lemon']
+        this.gameId = id
+    }
+
+    progress(){
+        if (this.fruit.length){
+            return this.fruit.pop
+        }
+        return (this.gameover())    
+    }
+    gameover(){
+        return null
+    }
+}
 
 
 app.post('/', async function(request,response){

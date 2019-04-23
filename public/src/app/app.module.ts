@@ -11,6 +11,9 @@ import { HomeComponent } from './home/home.component';
 import { HttpService } from './http.service';
 import {HttpClientModule} from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
+import { LoginService } from './login.service';
+import { WebsocketService } from './websocket.service';
+import { PlayService } from './play.service'
 
 
 
@@ -30,7 +33,11 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [HttpService],
+  providers: [
+    HttpService,
+    WebsocketService,
+    PlayService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
