@@ -25,6 +25,14 @@ app.use(express.static( __dirname + '/public/dist/public' ));
 const server = app.listen(8000, function(){
     console.log('listening on port 8000')
 })
+const io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+    //socket.emit('welcome', 'welcome')
+    console.log('someone connected')
+})
+
+
 
 app.post('/', async function(request,response){
     user = new User()

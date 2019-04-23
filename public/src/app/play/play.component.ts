@@ -12,4 +12,7 @@ export class PlayComponent implements OnInit {
   ngOnInit() {
   }
 
+  appleClicked(){
+    console.log('apple clicked')
+  }
 }
