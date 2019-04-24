@@ -46,6 +46,7 @@ io.on('connection', function(socket){
         switch(data.action){
             case 'fruitClicked':
             console.log(data.data.fruit, 'clicked by',data.data.user)
+            socket.emit('addPoint')
             io.to(data.data.gameId).emit('removeFruit',{fruit:data.data.fruit})
             break;
             case 'startGame':
@@ -53,7 +54,7 @@ io.on('connection', function(socket){
             game = new Game(gameId)
             io.to(gameId).emit('newGame', game)
             console.log('starting game', game)
-            playgame(gameId)
+            playgame(game)
             gameId++
             break;
             case 'joinGame':
@@ -67,31 +68,35 @@ io.on('connection', function(socket){
     
 })
 
-async function playgame(gameId){
-    fruitid= 1
-    let count = 10
-    progressGame(gameId,count,fruitid)
+async function playgame(game){
+    
+    let fruitid= 1
+    progressGame(game,fruitid)
 
 }
 
-function progressGame(gameId,count,fruitid){
+function progressGame(game,fruitid){
+    
+    
+    let count = game.fruit.length
     if(count > 0){
         setTimeout(function(){
             let vh = Math.floor(Math.random() * 71) + 10
             let vw = Math.floor(Math.random() * 81) + 10
-            io.to(gameId).emit('addfruit',{name: 'lemon',id: fruitid,top:vh+'%',left:vw+'%'})
+            io.to(game.gameId).emit('addfruit',{name: game.fruit.pop(),id: fruitid,top:vh+'%',left:vw+'%'})
             count--
             fruitid++
-            progressGame(gameId,count,fruitid)
+            progressGame(game,fruitid)
         },1000)
     }else{
-        io.to(gameId).emit('gameOver',gameId)
+        
+        io.to(game.gameId).emit('gameOver',game.gameId)
     }
 }
 
 class Game{
     constructor(id){
-        this.fruit =['apple','apple','lemon']
+        this.fruit =['cherry','apple','lemon','cherry','apple','lemon','cherry','apple','lemon']
         this.gameId = id
     }
 
@@ -142,20 +147,31 @@ app.post('/login', async function(request,response){
         if(err){
             console.log('error finding user by name', request.body.name, 'is', err)
         }else{
-            bcrypt.compare(request.body.password,user.password,function(err, res){
-                if(err){
-                    console.log('error checking password is ',err)
-                }else{
-                    if(res){
-                        session.setItem('user', user)
-                        console.log(session.getItem('user'))
-                        response.json({
-                            message: 'success',
-                            data: user
-                        })
+            if(!user){response.json({
+                message: 'failure',
+                data: 'login failed'
+            })}else{
+                bcrypt.compare(request.body.password,user.password,function(err, res){
+                    if(err){
+                        console.log('error checking password is ',err)
+                    }else{
+                        if(res){
+                            session.setItem('user', user)
+                            console.log(session.getItem('user'))
+                            response.json({
+                                message: 'success',
+                                data: user
+                            })
+                        }else{
+                            response.json({
+                                message: 'failure',
+                                data: 'login failed'
+                            })
+                        }
                     }
-                }
-            })
+                })
+            }
+            
         }
     })
 })

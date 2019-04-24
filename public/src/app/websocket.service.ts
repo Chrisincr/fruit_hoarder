@@ -45,6 +45,10 @@ export class WebsocketService {
         console.log('Recieved gameOver from ws server')
         observer.next({'action': 'gameOver','data':data})
       })
+      this.socket.on('addPoint', (data)=>{
+        console.log('Recieved addPoint from ws server')
+        observer.next({'action': 'addPoint', 'data':data})
+      })
 
 
       return () => {

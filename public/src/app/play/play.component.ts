@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from '../websocket.service';
 import { PlayService } from '../play.service';
 import { LoginService } from '../login.service';
-import { Key } from 'protractor';
+import { Key, $ } from 'protractor';
+import { Router} from '@angular/router'
 
 @Component({
   selector: 'app-play',
@@ -16,13 +17,15 @@ export class PlayComponent implements OnInit {
   private fruits: any;
   private gameId: any;
   private ready: any;
+  private points: any;
 
-  constructor(private play: PlayService, private _loginService: LoginService) {
+  constructor(private play: PlayService, private _loginService: LoginService,private router: Router) {
     this.waiting = true;
     if ('user' in sessionStorage){
+      console.log('user in session',JSON.parse(sessionStorage.getItem('user')))
       this.activeUser = JSON.parse(sessionStorage.getItem('user'))
     }else{
-      this.activeUser ={name: ""}
+      this.router.navigate(['/login'])
     }
 
 
@@ -39,6 +42,7 @@ export class PlayComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.points = 0
     this.fruits = []
     this.play.messages.subscribe(msg => {
       //console.log(msg['action'])
@@ -69,8 +73,14 @@ export class PlayComponent implements OnInit {
         }
         case 'gameOver':{
           console.log('gameOver',msg)
+          this.fruits=[]
           this.gameId=null;
           this.waiting = true;
+          break;
+        }
+        case 'addPoint':{
+          console.log('point scored')
+          this.points++
           break;
         }
 

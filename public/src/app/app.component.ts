@@ -12,7 +12,13 @@ export class AppComponent {
   title = 'Fruit Hoarder';
   activeUser: any;
   constructor(private _httpService: HttpService, private _loginService: LoginService){
-    this.activeUser = {name: ''};
+    if ('user' in sessionStorage){
+      console.log('user in session',JSON.parse(sessionStorage.getItem('user')))
+      this.activeUser = JSON.parse(sessionStorage.getItem('user'))
+    }else{
+      this.activeUser = {name: ''};
+    }
+    
     _loginService.changeEmitted$.subscribe(data => {
       //console.log('in change emitted')
       //console.log(sessionStorage.getItem('user'))

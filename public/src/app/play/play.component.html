@@ -1,6 +1,7 @@
 
 <button *ngIf="waiting" (click)="joinGame()">JoinGame</button>
 <button *ngIf="ready" (click)="startGame()">Start{{gameId}}</button>
+<p>My Fruit Basket has {{points}} fruit in it.</p>
 <div id='playArea'>
   <div *ngFor='let fruit of fruits'>
     <img class ='fruit' src='assets/img/{{fruit.name}}.png' alt='fruit' height='125px' (click)="fruitClicked(fruit.id)" [style.top]="fruit.top" [style.left]="fruit.left">
