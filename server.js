@@ -31,7 +31,13 @@ const io = require('socket.io')(server);
 let gameId = 10
 io.on('connection', function(socket){
     let game = null;
-    socket.join(gameId)
+    let previousGameId;
+    const safeJoin = currentGameId => {
+        socket.leave(previousGameId);
+        socket.join(currentGameId);
+        previousGameId = currentGameId;
+    }
+    //socket.join(gameId)
     
     io.to(gameId).emit('message', 'welcome')
     
@@ -50,8 +56,12 @@ io.on('connection', function(socket){
             playgame(gameId)
             gameId++
             break;
+            case 'joinGame':
+            safeJoin(gameId);
+            io.to(gameId).emit('newPlayer')
+            break;
         }
-        console.log('message from',data)
+        console.log('message recieved:',data)
     })
 
     
@@ -59,22 +69,24 @@ io.on('connection', function(socket){
 
 async function playgame(gameId){
     fruitid= 1
-    let count = 11
+    let count = 10
     progressGame(gameId,count,fruitid)
 
 }
 
 function progressGame(gameId,count,fruitid){
-    if(count > 1){
+    if(count > 0){
         setTimeout(function(){
-            let vh = Math.floor(Math.random() * 61) + 10
-            let vw = Math.floor(Math.random() * 61) + 20
-            io.to(gameId).emit('addfruit',{name: 'lemon',id: fruitid,top:vh+'vh',left:vw+'vw'})
+            let vh = Math.floor(Math.random() * 71) + 10
+            let vw = Math.floor(Math.random() * 81) + 10
+            io.to(gameId).emit('addfruit',{name: 'lemon',id: fruitid,top:vh+'%',left:vw+'%'})
             count--
             fruitid++
             progressGame(gameId,count,fruitid)
         },1000)
-    } 
+    }else{
+        io.to(gameId).emit('gameOver',gameId)
+    }
 }
 
 class Game{

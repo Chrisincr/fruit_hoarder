@@ -15,6 +15,7 @@ export class PlayComponent implements OnInit {
   private waiting: any;
   private fruits: any;
   private gameId: any;
+  private ready: any;
 
   constructor(private play: PlayService, private _loginService: LoginService) {
     this.waiting = true;
@@ -57,6 +58,19 @@ export class PlayComponent implements OnInit {
         case 'newGame':{
           console.log('newgame',msg)
           this.gameId=msg.data.gameId
+          this.ready = false;
+          break;
+        }
+        case 'newPlayer':{
+          console.log('newPlayer',msg)
+          this.waiting = false;
+          this.ready = true;
+          break;
+        }
+        case 'gameOver':{
+          console.log('gameOver',msg)
+          this.gameId=null;
+          this.waiting = true;
           break;
         }
 
@@ -75,8 +89,10 @@ export class PlayComponent implements OnInit {
     }
   }
 
-  lemonClicked(){
-    
+  joinGame(){
+    this.fruits = []
+    this.play.joinGame()
+
   }
   startGame(){
     this.play.startGame()

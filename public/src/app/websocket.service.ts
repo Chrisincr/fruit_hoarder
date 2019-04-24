@@ -33,10 +33,17 @@ export class WebsocketService {
         //console.log('Recieved remove fruit message from ws server')
         observer.next({'action':'removefruit','data': data})
       })
-      
+      this.socket.on('newPlayer', (data) =>{
+        //console.log('Recieved newPlayer from ws server')
+        observer.next({'action':'newPlayer','data': data})
+      })
       this.socket.on('startGame', (data) =>{
        //console.log('Recieved start from websocket server');
         observer.next(data)
+      })
+      this.socket.on('gameOver', (data)=>{
+        console.log('Recieved gameOver from ws server')
+        observer.next({'action': 'gameOver','data':data})
       })
 
 

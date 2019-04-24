@@ -22,6 +22,10 @@ export class PlayService {
     this.messages.next({action:'fruitClicked',data:msg})
   }
 
+  joinGame(){
+    this.messages.next({action:'joinGame'})
+  }
+
   startGame(){
     this.messages.next({action:'startGame'})
   }
