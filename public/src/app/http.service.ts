@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 
@@ -9,10 +9,19 @@ import { HttpClient } from '@angular/common/http';
 export class HttpService {
   
   
+  
 
   constructor(private _http: HttpClient) {
     }
-
+    deleteUser(editUser: any) {
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        body: editUser,
+      };
+      return this._http.delete('/user',options);
+    }
     editUser(editUser: any) {
       return this._http.patch('/user',editUser);
     }

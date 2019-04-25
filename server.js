@@ -135,8 +135,33 @@ app.patch('/user', async function(request,response){
         })
     })
 })
+app.delete('/user', async function(request,response){
+    user = await User.findById(request.body._id)
+    console.log(request.body)
+    console.log(user)
+    user.remove(function (err){
+        if(err){
+            response.json({
+                message: 'Error',
+                data: err
+            })
+        }else{
+            response.json({
+                message: 'Success',
+                data: user
+            })
+        }
+    })
+})
 app.post('/', async function(request,response){
     user = new User()
+    unique = await User.find({'name': request.body.name})
+    if(unique.length){
+        response.json({
+            message: 'Error',
+            data: 'user exists'
+        })
+    }
     user.name = request.body.name
     user.password = await hashPass(request.body.password)
     await user.save()

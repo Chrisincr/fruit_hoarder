@@ -24,7 +24,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
   }
 
-  onEdit(){///NEEDS WORK!!!
+  onEdit(){
     console.log('Attempting Edit of ', this.editUser)
     let observable = this._httpService.editUser(this.editUser);
     observable.subscribe(data =>{
@@ -34,6 +34,23 @@ export class EditComponent implements OnInit {
         console.log('edit success')
       sessionStorage.setItem('user', JSON.stringify(data['data']))
       this.editUser = data['data']
+      this._loginService.emitChange();
+      this.router.navigateByUrl('/')
+    }else{
+      this.response=data['data']
+    }
+    })
+  }
+  onDelete(){
+    console.log('Attempting Delete of ', this.editUser)
+    let observable = this._httpService.deleteUser(this.editUser);
+    observable.subscribe(data =>{
+      console.log('got delete user back', data)
+      console.log(data['message'])
+      if(data['message'] == "Success"){
+        console.log('delete success')
+      sessionStorage.removeItem('user')
+      this.editUser = null;
       this._loginService.emitChange();
       this.router.navigateByUrl('/')
     }else{
