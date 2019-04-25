@@ -38,15 +38,15 @@ export class WebsocketService {
         observer.next({'action':'newPlayer','data': data})
       })
       this.socket.on('startGame', (data) =>{
-       //console.log('Recieved start from websocket server');
+        //console.log('Recieved start from websocket server');
         observer.next(data)
       })
       this.socket.on('gameOver', (data)=>{
-        console.log('Recieved gameOver from ws server')
+        //console.log('Recieved gameOver from ws server')
         observer.next({'action': 'gameOver','data':data})
       })
       this.socket.on('addPoint', (data)=>{
-        console.log('Recieved addPoint from ws server')
+        //console.log('Recieved addPoint from ws server')
         observer.next({'action': 'addPoint', 'data':data})
       })
 

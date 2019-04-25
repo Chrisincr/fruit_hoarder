@@ -8,11 +8,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HttpService {
   
+  
 
   constructor(private _http: HttpClient) {
     }
 
-  
+    editUser(editUser: any) {
+      return this._http.patch('/user',editUser);
+    }
   
   registerUser(newUser: any){
     return this._http.post('/',newUser);

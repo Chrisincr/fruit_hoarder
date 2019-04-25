@@ -13,7 +13,8 @@ import {HttpClientModule} from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { LoginService } from './login.service';
 import { WebsocketService } from './websocket.service';
-import { PlayService } from './play.service'
+import { PlayService } from './play.service';
+import { EditComponent } from './edit/edit.component'
 
 
 
@@ -25,6 +26,7 @@ import { PlayService } from './play.service'
     ScoreboardComponent,
     PlayComponent,
     HomeComponent,
+    EditComponent,
     
   ],
   imports: [

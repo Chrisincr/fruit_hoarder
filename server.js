@@ -111,7 +111,30 @@ class Game{
     }
 }
 
-
+app.patch('/user', async function(request,response){
+    user = await User.findById(request.body._id)
+    console.log(request.body)
+    console.log(user)
+    if(user.name != request.body.name){
+        user.name = request.body.name
+    }
+    if(user.password != request.body.password){
+        user.password = await hashPass(request.body.password)
+    }
+    await user.save()
+    .then (v =>{
+        response.json({
+            message: 'Success',
+            data: v
+        })
+    })
+    .catch(e =>{
+        response.json({
+            message: 'Error',
+            data: e
+        })
+    })
+})
 app.post('/', async function(request,response){
     user = new User()
     user.name = request.body.name
