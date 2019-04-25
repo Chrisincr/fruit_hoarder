@@ -26,7 +26,10 @@ export class EditComponent implements OnInit {
 
   onEdit(){
     console.log('Attempting Edit of ', this.editUser)
-    let observable = this._httpService.editUser(this.editUser);
+    if(this.editUser.name.length == 0 || this.editUser.password.length == 0){
+      this.response= "Password and name must exist"
+    }else{
+      let observable = this._httpService.editUser(this.editUser);
     observable.subscribe(data =>{
       console.log('got edit user back', data)
       console.log(data['message'])
@@ -40,6 +43,8 @@ export class EditComponent implements OnInit {
       this.response=data['data']
     }
     })
+    }
+    
   }
   onDelete(){
     console.log('Attempting Delete of ', this.editUser)

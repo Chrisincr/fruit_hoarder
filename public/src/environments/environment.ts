@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //ws_url: 'http://192.168.1.237:8000'
-  ws_url: 'http://10.1.1.192:8000'
+  ws_url: 'http://192.168.1.237:8000'
+  //ws_url: 'http://10.1.1.192:8000'
 };
 
 /*

@@ -1,12 +1,21 @@
 #playArea{
-    display: inline-block;
+
+    
     position: relative;
-    min-width: 80vw;
-    min-height: 80vh;
+    width: 90%;
+    height: 90%;
+    margin: 0 auto !important;
 }
 
 
 .fruit{
     position: absolute;
     
+}
+
+.center-div{
+    position: relative;
+    width: 90%;
+    height: 75vh;
+    margin: 0 auto !important;
 }

@@ -1,16 +1,16 @@
 <div *ngIf="user.name.length">
   <p>Welcome {{user.name}}</p>
-  <button class='btn btn-primary ' [routerLink]="['/play']">Play Game</button> | <button class='btn btn-primary ' [routerLink]="['/edit']">Edit User</button> | 
+  <button class='btn btn-success ' [routerLink]="['/play']">Play Game</button> | <button class='btn btn-success ' [routerLink]="['/edit']">Edit User</button> | 
   <button (click)='onLogout()' class='btn btn-danger'>Logout</button>
 </div>
 
 
 <div *ngIf="user.name.length == 0">
 <div class='row'>
-    <button class='btn btn-primary ' [routerLink]="['/login']">Login stuff</button>
+    <button class='btn btn-success ' [routerLink]="['/login']">Login stuff</button>
   </div>
   <hr>
   <div class='row'>
-    <button class='btn btn-primary' [routerLink]="['/register']">Register stuff</button>
+    <button class='btn btn-success' [routerLink]="['/register']">Register stuff</button>
   </div>
 </div>
